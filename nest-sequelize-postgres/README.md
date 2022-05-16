@@ -37,3 +37,7 @@
 	- "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
 - updated lint script:
 	- "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+
+### Logging
+- added custom winston logger
+- integrated into default nestjs log flow
