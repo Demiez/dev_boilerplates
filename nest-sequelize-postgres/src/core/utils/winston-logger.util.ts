@@ -58,7 +58,7 @@ export class WinstonLogger implements LoggerService {
         );
   }
 
-  public warn(warningMessage: string) {
+  public warn(warningMessage: string): void {
     this.instance.warn(warningMessage);
   }
 }
