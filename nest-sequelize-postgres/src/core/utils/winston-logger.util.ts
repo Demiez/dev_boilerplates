@@ -1,5 +1,5 @@
 import { Injectable, LoggerService } from '@nestjs/common';
-import * as moment from 'moment';
+import * as dateFormat from 'dateformat';
 import { createLogger, format, Logger, transports } from 'winston';
 import { DEFAULT_DATE_FORMAT, WINSTON_TIMESTAMP_FORMAT } from '../constants';
 
@@ -7,7 +7,10 @@ require('dotenv').config();
 
 @Injectable()
 export class WinstonLogger implements LoggerService {
-  private readonly date = moment().format(DEFAULT_DATE_FORMAT);
+  private readonly date = dateFormat(
+    new Date(),
+    DEFAULT_DATE_FORMAT.toLowerCase()
+  );
   private readonly print = format.printf((info) => {
     const log = `${info.level}: ${[info.timestamp]}: ${info.message}`;
 
