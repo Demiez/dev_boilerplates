@@ -1,6 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './core/filters/http-exception.filter';
 import { WinstonLogger } from './core/utils';
 
 async function start() {
@@ -10,6 +11,8 @@ async function start() {
   const app = await NestFactory.create(AppModule, {
     logger: new WinstonLogger(),
   });
+
+  app.useGlobalFilters(new HttpExceptionFilter(app.get(Logger)));
 
   await app.listen(PORT, () => {
     Logger.log(`Server running in ${ENV} mode on port: ${PORT}`);
