@@ -1,4 +1,5 @@
-import { Logger, Module } from '@nestjs/common';
+import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
+import { RequestLoggerMiddleware } from './core/middlewares/request-logger.middleware';
 import { DbProvider } from './modules/db.module/db.provider';
 import { RootController } from './root/root.controller';
 import { RootService } from './root/root.service';
@@ -9,4 +10,8 @@ require('dotenv').config();
   controllers: [RootController],
   providers: [Logger, RootService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(RequestLoggerMiddleware).forRoutes('*');
+  }
+}
