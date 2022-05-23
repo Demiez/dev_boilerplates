@@ -1,17 +1,13 @@
-import { BaseStatusesEnum } from '../enums/base-statuses.enum';
+import { HttpStatus } from '@nestjs/common';
 
 export class StandardResponseViewModel<T> {
   public result: T;
 
   public message: string;
 
-  public status: BaseStatusesEnum | number;
+  public status: HttpStatus | number;
 
-  constructor(
-    result?: T,
-    message?: string,
-    status?: BaseStatusesEnum | number
-  ) {
+  constructor(result?: T, message?: string, status?: HttpStatus | number) {
     this.result = result;
     this.message = message;
     this.status = status;
