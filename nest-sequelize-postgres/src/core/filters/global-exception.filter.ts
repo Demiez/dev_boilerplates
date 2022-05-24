@@ -10,7 +10,7 @@ import { Response } from 'express';
 import { SystemServerError } from '../errors';
 
 @Catch()
-export class GenericExceptionFilter implements ExceptionFilter {
+export class GlobalExceptionFilter implements ExceptionFilter {
   constructor(private readonly logger: Logger) {}
 
   catch(exception: Error | HttpException, host: ArgumentsHost): void {
