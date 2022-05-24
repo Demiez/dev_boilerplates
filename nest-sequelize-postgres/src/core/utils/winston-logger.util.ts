@@ -52,10 +52,10 @@ export class WinstonLogger implements LoggerService {
 
   public error(
     errorMessage: string,
-    data?: Record<string, unknown> | Record<string, unknown>[]
+    data?: Error | Record<string, unknown> | Record<string, unknown>[]
   ): void {
     data
-      ? this.instance.error(errorMessage)
+      ? this.instance.error(data)
       : this.instance.error(
           errorMessage + ': \n' + JSON.stringify(data, null, 4)
         );

@@ -5,11 +5,11 @@ export class StandardResponseViewModel<T> {
 
   public message: string;
 
-  public status: HttpStatus | number;
+  public statusCode: HttpStatus | number;
 
   constructor(result?: T, message?: string, status?: HttpStatus | number) {
     this.result = result;
     this.message = message;
-    this.status = status;
+    this.statusCode = status;
   }
 }

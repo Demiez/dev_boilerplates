@@ -4,20 +4,32 @@ import {
   ArgumentsHost,
   HttpException,
   Logger,
+  HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
+import { SystemServerError } from '../errors';
 
-@Catch(HttpException)
-export class HttpExceptionFilter implements ExceptionFilter {
+@Catch()
+export class GenericExceptionFilter implements ExceptionFilter {
   constructor(private readonly logger: Logger) {}
 
-  catch(exception: HttpException, host: ArgumentsHost): void {
+  catch(exception: Error | HttpException, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const status = exception.getStatus();
+    const isException = exception instanceof HttpException;
 
-    this.logger.error('', exception);
+    const status = isException
+      ? exception.getStatus()
+      : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    response.status(status).send(exception.getResponse());
+    const errorMessage = exception.message;
+
+    this.logger.error(errorMessage, exception);
+
+    if (isException) {
+      response.status(status).send(exception.getResponse());
+    } else {
+      response.status(status).send(new SystemServerError(errorMessage));
+    }
   }
 }
